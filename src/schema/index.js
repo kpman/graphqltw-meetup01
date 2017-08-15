@@ -1,11 +1,33 @@
 /* eslint-disable no-plusplus */
 const { makeExecutableSchema } = require('graphql-tools');
 const _debug = require('debug');
+const DataLoader = require('dataloader');
 
 const knex = require('../knex');
 
 let queryTimes = 0;
 const debug = _debug('demo');
+
+const batchLoadAuthors = ids => {
+  debug('batchLoadAuthors', ++queryTimes);
+  return knex('authors')
+    .whereIn('id', ids)
+    .select()
+    .then(rows => ids.map(id => rows.find(x => x.id === id)));
+};
+
+const batchLoadPostsByAuthor = ids => {
+  debug('batchLoadPosts', ++queryTimes);
+  return knex('posts')
+    .whereIn('author_id', ids)
+    .select()
+    .then(rows => ids.map(id => rows.filter(x => x.author_id === id)));
+};
+
+const loaders = {
+  authors: new DataLoader(batchLoadAuthors),
+  postsByAuthor: new DataLoader(batchLoadPostsByAuthor),
+};
 
 const typeDefs = `
   type Author {
@@ -30,8 +52,7 @@ const typeDefs = `
 const resolvers = {
   Query: {
     getAuthor(obj, args) {
-      debug('getAuthor', ++queryTimes);
-      return knex('authors').where('id', args.id).first().select();
+      return loaders.authors.load(args.id);
     },
 
     getPostsByTitle(obj, args) {
@@ -43,15 +64,13 @@ const resolvers = {
 
   Author: {
     posts(author) {
-      debug('posts', ++queryTimes);
-      return knex('posts').where('author_id', author.id).select();
+      return loaders.postsByAuthor.load(author.id);
     },
   },
 
   Post: {
     author(post) {
-      debug('author', ++queryTimes);
-      return knex('authors').where('id', post.author_id).first().select();
+      return loaders.authors.load(post.author_id);
     },
   },
 };

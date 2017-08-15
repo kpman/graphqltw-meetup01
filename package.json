@@ -1,0 +1,71 @@
+{
+  "name": "graphqltw-meetup01",
+  "version": "0.1.0",
+  "description": "A demo project for dataloader with graphql server",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "lint:fix": "npm run lint -- --fix",
+    "start": "node bin/start.js",
+    "test": "npm run lint:fix && npm run testonly",
+    "testonly": "jest",
+    "testonly:cov": "jest --coverage",
+    "testonly:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kpman/graphqltw-meetup01.git"
+  },
+  "author": "kpman",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-eslint": "^7.2.1",
+    "babel-jest": "^19.0.0",
+    "eslint": "^3.18.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-config-yoctol": "^0.12.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-prettier": "^2.0.1",
+    "eslint-plugin-react": "^6.10.3",
+    "jasmine-reporters": "^2.2.1",
+    "jest": "^19.0.2",
+    "prettier": "^1.5.2"
+  },
+  "dependencies": {
+    "babel-preset-yoctol": "^0.4.1",
+    "cross-env": "^4.0.0",
+    "graphql": "^0.10.5",
+    "graphql-tools": "^1.2.0",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-graphql": "^0.7.1",
+    "koa-mount": "^3.0.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^test/(.*)": "<rootDir>/test/helpers/$1.js"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 87,
+        "functions": 87,
+        "lines": 87,
+        "statements": 87
+      }
+    },
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setup-jasmine-env.js",
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testEnvironment": "node"
+  }
+}

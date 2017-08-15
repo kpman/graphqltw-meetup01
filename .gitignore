@@ -1,0 +1,13 @@
+.DS_Store
+.env
+
+*.log
+npm-debug.log*
+yarn-error.log*
+
+node_modules
+coverage
+jest-report
+junit.xml
+
+

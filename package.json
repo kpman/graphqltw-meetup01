@@ -4,6 +4,7 @@
   "description": "A demo project for dataloader with graphql server",
   "main": "src/index.js",
   "scripts": {
+    "dev": "nodemon bin/start.js",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
     "start": "node bin/start.js",
@@ -31,6 +32,7 @@
     "eslint-plugin-react": "^6.10.3",
     "jasmine-reporters": "^2.2.1",
     "jest": "^19.0.2",
+    "nodemon": "^1.11.0",
     "prettier": "^1.5.2"
   },
   "dependencies": {

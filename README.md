@@ -5,7 +5,7 @@ A demo project for dataloader with graphql server
 ## example query
 ```
 {
-  getAuthor(id: 100) {
+  getAuthor(id: 3) {
     id
     name
     posts {

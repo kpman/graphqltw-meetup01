@@ -1,48 +1,11 @@
 /* eslint-disable no-plusplus */
 const { makeExecutableSchema } = require('graphql-tools');
+const _debug = require('debug');
 
-let callTimes = 0;
+const knex = require('../knex');
 
-const fakeQueryAuthor = args => {
-  console.log('fakeQueryAuthor', ++callTimes);
-  return Promise.resolve({
-    id: args.id,
-    name: 'kpman',
-  });
-};
-
-const fakeQueryPost = args => {
-  console.log('fakeQueryPost', ++callTimes);
-  return Promise.resolve({
-    id: 2,
-    title: `GraphQL is ${args.titleContains}!`,
-    text: 'GraphQL Taiwan is good!',
-  });
-};
-
-const fakeQueryPostsByAuthor = author => {
-  console.log('fakeQueryPostsByAuthor', ++callTimes);
-  return Promise.resolve([
-    {
-      id: 3,
-      title: `${author.name} blog`,
-      text: 'GraphQL Tawian is good!',
-    },
-    {
-      id: 4,
-      title: `${author.name} loves GraphQL`,
-      text: 'GraphQL Tawian is awesome!',
-    },
-  ]);
-};
-
-const fakeQueryAuthorByPost = post => {
-  console.log('fakeQueryAuthorByPost', ++callTimes);
-  return Promise.resolve({
-    id: 5,
-    name: post.id,
-  });
-};
+let queryTimes = 0;
+const debug = _debug('demo');
 
 const typeDefs = `
   type Author {
@@ -67,23 +30,28 @@ const typeDefs = `
 const resolvers = {
   Query: {
     getAuthor(obj, args) {
-      return fakeQueryAuthor(args);
+      debug('getAuthor', ++queryTimes);
+      return knex('authors').where('id', args.id).first().select();
     },
 
     getPostsByTitle(obj, args) {
-      return fakeQueryPost(args);
+      debug('getPostsByTitle', ++queryTimes);
+      // use .where only for demo
+      return knex('posts').where('title', args.titleContains).first().select();
     },
   },
 
   Author: {
     posts(author) {
-      return fakeQueryPostsByAuthor(author);
+      debug('posts', ++queryTimes);
+      return knex('posts').where('author_id', author.id).select();
     },
   },
 
   Post: {
     author(post) {
-      return fakeQueryAuthorByPost(post);
+      debug('author', ++queryTimes);
+      return knex('authors').where('id', post.author_id).first().select();
     },
   },
 };

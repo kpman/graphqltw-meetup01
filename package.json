@@ -4,11 +4,11 @@
   "description": "A demo project for dataloader with graphql server",
   "main": "src/index.js",
   "scripts": {
-    "migrate": "cross-env NODE_ENV=production knex migrate:latest",
-    "seed": "cross-env NODE_ENV=production knex seed:run",
+    "migrate": "cross-env knex migrate:latest",
+    "seed": "cross-env knex seed:run",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
-    "dev": "nodemon bin/start.js",
+    "dev": "DEBUG=demo nodemon bin/start.js",
     "start": "node bin/start.js",
     "test": "npm run lint:fix && npm run testonly",
     "testonly": "jest",
@@ -35,7 +35,8 @@
     "jasmine-reporters": "^2.2.1",
     "jest": "^19.0.2",
     "nodemon": "^1.11.0",
-    "prettier": "^1.5.2"
+    "prettier": "^1.5.2",
+    "sqlite3": "^3.1.9"
   },
   "dependencies": {
     "babel-preset-yoctol": "^0.4.1",

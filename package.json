@@ -8,7 +8,7 @@
     "seed": "cross-env knex seed:run",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
-    "dev": "nodemon bin/start.js",
+    "dev": "DEBUG=* nodemon bin/start.js",
     "start": "node bin/start.js",
     "test": "npm run lint:fix && npm run testonly",
     "testonly": "jest",

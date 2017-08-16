@@ -2,7 +2,27 @@
 
 A demo project for dataloader with graphql server
 
+![GraphQL Taiwan](http://i.imgur.com/NULoFfw.jpg)
+
+- [slide](https://hackmd.io/p/Syk9o9xuZ#/)
+
 ## example query
+
+```
+{
+  getAuthor(id: 3) {
+    id
+    name
+    posts {
+      id
+      text
+      author {
+        name
+      }
+    }
+  }
+}
+```
 ```
 {
   getAuthor(id: 3) {
@@ -20,7 +40,7 @@ A demo project for dataloader with graphql server
           text
           author {
             id
-            posts{
+            posts {
               id
               title
               text
